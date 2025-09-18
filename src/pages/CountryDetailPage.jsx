@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchByName } from "../api";
+import { useCountry } from "../context/CountryContext.jsx";
 
 export default function CountryDetailPage() {
   const { countryName } = useParams();
   const [country, setCountry] = useState(null);
   const [error, setError] = useState(null);
+  const { saveCountry } = useCountry(); // NY
 
-  // laddar landet från API varje gång countryName ändras
   useEffect(() => {
     async function run() {
       try {
@@ -21,11 +22,9 @@ export default function CountryDetailPage() {
     run();
   }, [countryName]);
 
-  // felhantering
   if (error) return <p style={{ color: "crimson" }}>Error: {error}</p>;
   if (!country) return <p>Loading…</p>;
 
-  // plocka ut värden från API
   const name = country.name?.common ?? countryName;
   const flag = country.flags?.png;
   const currency = country.currencies
@@ -37,7 +36,6 @@ export default function CountryDetailPage() {
   return (
     <main>
       <h1>{name}</h1>
-
       {flag && (
         <img
           src={flag}
@@ -65,12 +63,12 @@ export default function CountryDetailPage() {
         </li>
       </ul>
 
-      {/* Save-knapp – kommer implementeras senare */}
+      {/* Spara landet i globalt state + localStorage */}
       <button
-        disabled
-        style={{ padding: "10px 16px", borderRadius: 8, opacity: 0.6 }}
+        onClick={() => saveCountry({ name, flagPng: flag })}
+        style={{ padding: "10px 16px", borderRadius: 8 }}
       >
-        Save (coming soon)
+        Save
       </button>
     </main>
   );
