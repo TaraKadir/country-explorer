@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Link, Routes, Route } from "react-router-dom";
+import StartPage from "./pages/StartPage.jsx";
+import CountriesPage from "./pages/CountriesPage.jsx";
+import CountryDetailPage from "./pages/CountryDetailPage.jsx";
+import CollectionPage from "./pages/CollectionPage.jsx";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div
+      style={{
+        fontFamily: "system-ui",
+        maxWidth: 900,
+        margin: "0 auto",
+        padding: 16,
+      }}
+    >
+      <header style={{ display: "flex", gap: 12, marginBottom: 24 }}>
+        <Link to="/">Start</Link>
+        <Link to="/countries">Countries</Link>
+        <Link to="/collection">Collection</Link>
+      </header>
 
-export default App
+      <Routes>
+        <Route path="/" element={<StartPage />} />
+        <Route path="/countries" element={<CountriesPage />} />
+        <Route path="/countries/:countryName" element={<CountryDetailPage />} />
+        <Route path="/collection" element={<CollectionPage />} />
+      </Routes>
+    </div>
+  );
+}
