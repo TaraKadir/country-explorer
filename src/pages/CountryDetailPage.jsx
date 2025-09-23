@@ -7,7 +7,7 @@ export default function CountryDetailPage() {
   const { countryName } = useParams();
   const [country, setCountry] = useState(null);
   const [error, setError] = useState(null);
-  const { saveCountry } = useCountry(); // NY
+  const { saveCountry } = useCountry();
 
   useEffect(() => {
     async function run() {
@@ -36,15 +36,10 @@ export default function CountryDetailPage() {
   return (
     <main>
       <h1>{name}</h1>
-      {flag && (
-        <img
-          src={flag}
-          alt={name}
-          style={{ width: 240, borderRadius: 8, marginBottom: 16 }}
-        />
-      )}
 
-      <ul style={{ lineHeight: 1.8 }}>
+      {flag && <img src={flag} alt={name} className="detail-flag" />}
+
+      <ul className="meta">
         <li>
           <strong>Currency:</strong> {currency}
         </li>
@@ -63,10 +58,9 @@ export default function CountryDetailPage() {
         </li>
       </ul>
 
-      {/* Spara landet i globalt state + localStorage */}
       <button
+        className="btn btn-accent"
         onClick={() => saveCountry({ name, flagPng: flag })}
-        style={{ padding: "10px 16px", borderRadius: 8 }}
       >
         Save
       </button>
